@@ -1,2 +1,3 @@
-StepDefinations\loginSteps.class
+PageObject\Objects.class
+StepDefinations\dealsStep.class
 StepDefinations\TestRunner.class
