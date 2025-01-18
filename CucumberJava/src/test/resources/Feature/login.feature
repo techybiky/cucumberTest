@@ -2,7 +2,7 @@ Feature: Login functionality
 
 @instance_1
  	Scenario Outline: Login functionality 
- 	Given User is already login page
+ 	Given User login to the CRM page
 	When Title of login page is Login CRM
 	Then User enter username "<username>" and User enter password "<password>"
 	Then User click on Login button

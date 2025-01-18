@@ -2,7 +2,7 @@ Feature: Create Deal functionality
 
 @instance_1
  	Scenario: Create a new deal 
- 	Given User is already login page
+ 	Given User login to the CRM page
 	When Title of login page is Login CRM
 	Then User enter username and User enter password
 	| username| password |
