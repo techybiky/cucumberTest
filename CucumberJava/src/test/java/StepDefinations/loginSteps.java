@@ -1,5 +1,17 @@
 package StepDefinations;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -7,37 +19,19 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-
-public class loginSteps {
-
-	WebDriver driver;
+public class loginSteps extends BaseClass {
 
 	// key value mapping
 
 	@Before
-    public void setup() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-    }
+	public void setup() {
+		getDriver();
+	}
 
-    @Given("^User login to the CRM page$")
-    public void user_is_already_login_page() {
-        driver.get("https://www.freecrm.com/");
-    }
-
+	@Given("^User login to the CRM page$")
+	public void user_is_already_login_page() {
+		driver.get("https://www.freecrm.com/");
+	}
 
 	@When("^Title of login page is Login CRM$")
 	public void verify_page_titie() {
@@ -47,6 +41,7 @@ public class loginSteps {
 		Assert.assertEquals(actualTitle, title);
 
 	}
+
 	@Then("^User enter username and User enter password$")
 	public void user_enter_username_and_user_enrer_password(DataTable credentails) {
 		for (Map<String, String> data : credentails.asMaps(String.class, String.class)) {
@@ -91,23 +86,25 @@ public class loginSteps {
 		Thread.sleep(2000);
 	}
 
-	 @After
-	 public void teardown(io.cucumber.java.Scenario scenario) {
-		 
-		 if(scenario.isFailed()) {
-			 
-			 TakesScreenshot ts= (TakesScreenshot)driver;
-			 File source= ts.getScreenshotAs(OutputType.FILE);
-			 String screenshotname=scenario.getName();
-			 File destionation = new File("target/screenshots/" +screenshotname+ ".png" );
-			 
-			 try {
-				 FileUtils.copyFile(source, destionation);
-			 }catch(IOException e){
-				 e.printStackTrace();
-			 }
-		 }
-	 }
+	@After
+	public void teardown(io.cucumber.java.Scenario scenario) {
 
+		if (scenario.isFailed()) {
+
+			TakesScreenshot ts = (TakesScreenshot) driver;
+			File source = ts.getScreenshotAs(OutputType.FILE);
+			String screenshotname = scenario.getName();
+			File destionation = new File("target/screenshots/" + screenshotname + ".png");
+
+			try {
+				FileUtils.copyFile(source, destionation);
+			} catch (IOException e) {
+				e.printStackTrace();
+
+			}
+
+		}
+		closeDriver();
 	}
 
+}

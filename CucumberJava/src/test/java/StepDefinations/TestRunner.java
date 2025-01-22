@@ -7,10 +7,10 @@ import io.cucumber.junit.Cucumber;
 
 @RunWith(Cucumber.class) 
 @CucumberOptions(
-features="src/test/resources/Feature/deals.feature", 
+features="src/test/resources/Feature/restApiTest.feature", 
 glue= {"StepDefinations"},
-tags = "@instance_1",
-plugin = {"pretty","html:target/cucumber-html-report.html"},
+tags = "@instance_4",
+plugin = {"pretty", "html:bin/cucumber-junit/htmloutput","junit:bin/cucumber-junit/Webpage.xml","html:target/cucumber-reports"},
 dryRun = false, //check whether all the steps from feature files has got methods and implemented or no in Step Definition File
 monochrome = true
 ) 
