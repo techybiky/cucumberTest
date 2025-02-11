@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Cucumber" time="5.131" tests="1" skipped="0" failures="1" errors="0">
-<testcase classname="API Testing using Cucumber and REST Assured" name="Validate the PUT request" time="5.004">
-<failure type="java.lang.AssertionError" message="expected [first_name] but found [The email does not match]">
-<![CDATA[java.lang.AssertionError: expected [first_name] but found [The email does not match]
-	at org.testng.Assert.fail(Assert.java:111)
-	at org.testng.Assert.failNotEquals(Assert.java:1578)
-	at org.testng.Assert.assertEqualsImpl(Assert.java:150)
-	at org.testng.Assert.assertEquals(Assert.java:132)
-	at org.testng.Assert.assertEquals(Assert.java:656)
-	at StepDefinations.APIStepDefinitions.response_should_contain(APIStepDefinitions.java:86)
-	at ✽.response should contain(file:///C:/Users/bikra/OneDrive/Documents/GitProject/cucumberTest/CucumberJava/src/test/resources/Feature/restApiTest.feature:33)
-]]>
-</failure>
+<testsuite name="Cucumber" time="5.332" tests="1" skipped="0" failures="0" errors="0">
+<testcase classname="API Testing using Cucumber and REST Assured" name="Validate the PUT request" time="5.16">
 <system-out><![CDATA[
-Given the API endpoint is "https://reqres.in/api/users/2"...................passed
+Given the API endpoint is "http://localhost:3000/users".....................passed
 When I send a PUT request with the following data...........................passed
 Then the response status code should be 201.................................passed
-And response should contain.................................................failed
+And response should contain.................................................passed
 ]]></system-out>
 </testcase>
 </testsuite>

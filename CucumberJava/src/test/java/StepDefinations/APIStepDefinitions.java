@@ -7,6 +7,7 @@ import static org.testng.Assert.assertEquals;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.json.simple.JSONObject;
 import org.junit.Assert;
 
 import io.cucumber.datatable.DataTable;
@@ -14,6 +15,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
 public class APIStepDefinitions {
@@ -44,19 +46,15 @@ public class APIStepDefinitions {
 
 	@Then("the response should contain {string} with value {int}")
 	public void theResponseShouldContainWithValue(String key, int value) {
-		response.then().body(key, equalTo(value));
-		System.out.println(response.then().body(key, equalTo(value)));
+
+		response.then().body(key + "[0]", equalTo(value));
+		System.out.println("Expected : " + value + "  ");
+
 	}
 
 	@Then("the response should contain {string} and {string}")
 	public void the_response_should_contain_and(String string, String string2) {
-		response.then().body("data[0].first_name", equalTo(string)).body("data[0].last_name", equalTo(string2));
-	}
-
-	@Then("the response should contain key {string} with value {int}")
-	public void the_response_should_contain_key_with_value(String key, Integer value) {
-		response.then().body("data[0]." + key, equalTo(value));
-
+		response.then().body("[2].name", equalTo(string)).body("[2].email", equalTo(string2));
 	}
 
 	@Then("create a post request using below data")
@@ -77,14 +75,22 @@ public class APIStepDefinitions {
 	public void response_should_contain(DataTable table) {
 		Map<String, String> expectedData = table.asMap(String.class, String.class);
 
-	    // Loop through the map and validate the response against expected data
-	    for (Map.Entry<String, String> entry : expectedData.entrySet()) {
-	        // Extract the actual value from the JSON response body using JSONPath
-	        String actualValue = response.jsonPath().getString(entry.getKey());
+		// Loop through the expected data and validate against response
+		for (Map.Entry<String, String> entry : expectedData.entrySet()) {
+			String key = entry.getKey();
+			String expectedValue = entry.getValue();
 
-	        // Assert that the actual value matches the expected value
-	        assertEquals("The " + entry.getKey() + " does not match", entry.getValue(), actualValue);
-	    }
+			/// Fetch actual value from JSON response using JSONPath
+			Object actualValue = response.jsonPath().get(key);
+
+			// Convert actual value to String to avoid type mismatches
+			String actualValueStr = String.valueOf(actualValue);
+
+			if (!expectedValue.trim().equals(actualValueStr.trim())) {
+				throw new AssertionError("Mismatch for key [" + key + "]: Expected [" + expectedValue + "] but found ["
+						+ actualValueStr + "]");
+			}
+		}
 	}
 
 	@When("I send a Delete Request")

@@ -12,6 +12,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import PageObject.ConfigReader;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -22,15 +23,18 @@ import io.cucumber.java.en.When;
 public class loginSteps extends BaseClass {
 
 	// key value mapping
+	ConfigReader configReader = new ConfigReader();
+	String url = configReader.getProperty("url").toLowerCase();
 
 	@Before
-	public void setup() {
+	public void setup() throws Throwable {
 		getDriver();
+
 	}
 
 	@Given("^User login to the CRM page$")
 	public void user_is_already_login_page() {
-		driver.get("https://www.freecrm.com/");
+		driver.get(url);
 	}
 
 	@When("^Title of login page is Login CRM$")
@@ -104,7 +108,7 @@ public class loginSteps extends BaseClass {
 			}
 
 		}
-		closeDriver();
+		quitDriver();
 	}
 
 }
